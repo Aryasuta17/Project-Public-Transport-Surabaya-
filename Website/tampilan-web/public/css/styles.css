@@ -1,0 +1,59 @@
+/* Contoh styling kustom untuk website */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.navbar {
+  margin-bottom: 20px;
+  background-color: #007bff; /* Warna navbar */
+  padding: 10px;
+}
+
+.navbar a {
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #0056b3;
+}
+
+.jumbotron {
+  background-image: url('https://source.unsplash.com/1600x900/?transport'); /* Gambar dari Unsplash */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.footer {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+      display: block;
+  }
+
+  .navbar a {
+      display: block;
+      padding: 10px;
+  }
+
+  .jumbotron {
+      padding: 20px 0;
+  }
+}
