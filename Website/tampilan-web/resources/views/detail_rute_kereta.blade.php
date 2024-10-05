@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Rute Kereta {{ $id }} - Transportation Smart Destination</title>
+    <title>Detail Rute Kereta - Transportation Smart Destination</title>
     <style>
-        /* Import Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-        /* Reset CSS */
+        /* Reset dan Gaya Umum */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Gaya Umum */
         body {
             font-family: 'Roboto', sans-serif;
             background: url('{{ asset('images/background.jpg') }}') no-repeat center center fixed;
@@ -49,17 +45,19 @@
             font-size: 24px;
         }
 
-        /* Navigasi */
         nav {
             margin-left: auto;
         }
+
         nav ul {
             list-style: none;
             display: flex;
         }
+
         nav ul li {
             margin-left: 20px;
         }
+
         nav ul li a {
             color: #fff;
             text-decoration: none;
@@ -67,6 +65,7 @@
             transition: color 0.3s;
             padding: 8px 12px;
         }
+
         nav ul li a:hover {
             color: #e74c3c;
         }
@@ -74,19 +73,25 @@
         /* Konten */
         .container {
             padding: 150px 20px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-        }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Peta */
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .route-info {
+            background-color: rgba(224, 224, 224, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
         #map {
             width: 100%;
             height: 500px;
@@ -103,13 +108,16 @@
             bottom: 0;
             width: 100%;
         }
+
         .footer-bottom p {
             margin: 0;
             font-size: 14px;
         }
+
         .social-icons {
             margin-top: 10px;
         }
+
         .social-icons a {
             color: #fff;
             margin: 0 10px;
@@ -117,15 +125,26 @@
             font-size: 18px;
             transition: color 0.3s;
         }
+
         .social-icons a:hover {
             color: #e74c3c;
         }
 
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .route-info {
+                font-size: 14px;
+            }
+        }
     </style>
 
-    <!-- Tambahkan Leaflet CSS untuk peta -->
+    <!-- Leaflet CSS untuk peta -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
 </head>
 <body>
 
@@ -149,14 +168,19 @@
 
     <!-- Konten -->
     <div class="container">
-        <h1>Detail Rute Kereta {{ $id }}</h1>
-        <p>Stasiun: Stasiun 1 - Stasiun 2 - Stasiun 3</p>
+        <h1>Detail Rute Kereta {{ $validRoute['route'] }}</h1>
+
+        <div class="route-info">
+            <h2>Rute: {{ $validRoute['route'] }}</h2>
+            <p>Stasiun Awal: {{ $stations[$start] }}</p>
+            <p>Stasiun Tujuan: {{ $stations[$end] }}</p>
+        </div>
 
         <!-- Div untuk peta -->
         <div id="map"></div>
     </div>
 
-    <!-- Footer Bawah -->
+    <!-- Footer -->
     <div class="footer-bottom">
         <p>&copy; 2023 Transportation Smart Destination</p>
         <div class="social-icons">
@@ -166,45 +190,51 @@
         </div>
     </div>
 
-    <!-- Tambahkan Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
     <!-- Tambahkan Leaflet JS untuk peta -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <script>
+        // Data rute dari controller (disiapkan di backend)
+        const waypoints = [
+            @foreach ($validRoute['stations'] as $station)
+                L.latLng({{ $station['lat'] }}, {{ $station['lng'] }}),
+            @endforeach
+        ];
+
+        const stationNames = [
+            @foreach ($validRoute['stations'] as $station)
+                "{{ $station['name'] }}",
+            @endforeach
+        ];
+
         // Inisialisasi peta
-        var map = L.map('map').setView([-7.2575, 112.7521], 13);
+        var map = L.map('map').setView([waypoints[0].lat, waypoints[0].lng], 13);
 
         // Tambahkan layer peta (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Definisikan koordinat rute (contoh data)
-        var routeCoordinates = [
-            // Ganti dengan data koordinat rute sebenarnya
-            { lat: -7.2654, lng: 112.7518 }, // Stasiun Gubeng
-            { lat: -7.2485, lng: 112.7266 }, // Stasiun Pasar Turi
-            { lat: -7.3210, lng: 112.7371 }  // Stasiun Wonokromo
-        ];
-
-        // Buat array LatLng
-        var latlngs = routeCoordinates.map(function(coord) {
-            return [coord.lat, coord.lng];
+        // Tambahkan marker untuk setiap pemberhentian dengan keterangan stasiun
+        waypoints.forEach(function(point, index) {
+            L.marker([point.lat, point.lng]).addTo(map)
+                .bindPopup(stationNames[index]);
         });
 
-        // Tambahkan marker untuk setiap stasiun
-        routeCoordinates.forEach(function(coord, index) {
-            L.marker([coord.lat, coord.lng]).addTo(map)
-                .bindPopup('Stasiun ' + (index + 1));
-        });
-
-        // Gambarkan polyline rute
-        var routeLine = L.polyline(latlngs, { color: 'blue' }).addTo(map);
-
-        // Sesuaikan tampilan peta agar sesuai dengan rute
-        map.fitBounds(routeLine.getBounds());
+        // Gambarkan rute dengan Leaflet Routing Machine tanpa panel petunjuk arah
+        L.Routing.control({
+            waypoints: waypoints,
+            lineOptions: {
+                styles: [{ color: 'blue', weight: 5 }]
+            },
+            createMarker: function() {
+                return null;  // Nonaktifkan marker dari Routing Machine
+            },
+            routeWhileDragging: false,
+            draggableWaypoints: false,
+            show: false  // Menghilangkan panel petunjuk arah
+        }).addTo(map);
     </script>
 
 </body>

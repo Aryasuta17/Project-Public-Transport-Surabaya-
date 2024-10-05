@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BusController;
+use App\Http\Controllers\TrainController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,26 +33,14 @@ Route::get('/pilihan-transportasi', function () {
 })->name('pilihan.transportasi');
 
 // Rute Bus
-Route::get('/rute-bus', function () {
-    return view('rute_bus');
-})->name('rute.bus');
-
-// Rute Kereta
-Route::get('/rute-kereta', function () {
-    return view('rute_kereta');
-})->name('rute.kereta');
+Route::get('/rute-bus', [BusController::class, 'index'])->name('rute.bus');
 
 // Detail Rute Bus
-Route::get('/detail-rute-bus/{id}', function ($id) {
-    // Logic untuk menampilkan detail rute bus berdasarkan ID
-    return view('detail_rute_bus', ['id' => $id]);
-})->name('detail.rute.bus');
+Route::get('/detail-rute-bus/{id}', [BusController::class, 'show'])->name('detail.rute.bus');
 
-// Detail Rute Kereta
-Route::get('/detail-rute-kereta/{id}', function ($id) {
-    // Logic untuk menampilkan detail rute kereta berdasarkan ID
-    return view('detail_rute_kereta', ['id' => $id]);
-})->name('detail.rute.kereta');
+// Rute Kereta
+Route::get('/rute-kereta', [TrainController::class, 'ruteKereta'])->name('rute.kereta');
+Route::get('/detail-rute-kereta/{start}/{end}', [TrainController::class, 'detailRuteKereta'])->name('detail.rute.kereta');
 
 // Diskusi
 Route::get('/diskusi', function () {
@@ -76,23 +68,26 @@ Route::post('/logout', function () {
     return redirect()->route('home');
 })->name('logout');
 
-// Rute Bus
-Route::get('/rute-bus', function () {
-    return view('rute_bus');
-})->name('rute.bus');
+// --------------------
+// Admin Routes
+// --------------------
 
-// Detail Rute Bus
-Route::get('/detail-rute-bus/{id}', function ($id) {
-    return view('detail_rute_bus', ['id' => $id]);
-})->name('detail.rute.bus');
+// Route untuk dashboard admin
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-// Rute Kereta
-Route::get('/rute-kereta', function () {
-    return view('rute_kereta');
-})->name('rute.kereta');
+// Route untuk halaman manage users
+Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manage.users');
 
-// Detail Rute Kereta
-Route::get('/detail-rute-kereta/{id}', function ($id) {
-    return view('detail_rute_kereta', ['id' => $id]);
-})->name('detail.rute.kereta');
+// Route untuk halaman manage routes
+Route::get('/admin/routes', [AdminController::class, 'manageRoutes'])->name('admin.manage.routes');
 
+// Route untuk halaman manage transport
+Route::get('/admin/transport', [AdminController::class, 'manageTransport'])->name('admin.manage.transport');
+
+// Route untuk halaman settings
+Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+
+Route::post('/logout', function () {
+    Auth::logout();  // Logs out the user
+    return redirect()->route('home');  // Redirects to home after logout
+})->name('logout');

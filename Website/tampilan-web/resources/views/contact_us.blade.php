@@ -162,6 +162,25 @@
             color: #e74c3c;
         }
 
+        /* Tombol Admin Kecil di Pojok */
+        .admin-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+        .admin-btn:hover {
+            background-color: #c0392b;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -188,7 +207,6 @@
                 <li><a href="{{ route('pilihan.transportasi') }}">Transportasi</a></li>
                 <li><a href="{{ route('diskusi') }}">Diskusi</a></li>
                 <li><a href="{{ route('contact.us') }}">Kontak Kami</a></li>
-                <!-- Menampilkan "Login" dan "Register" jika diperlukan -->
             </ul>
         </nav>
     </div>
@@ -217,6 +235,9 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
+
+    <!-- Tombol kecil untuk Admin -->
+    <button class="admin-btn" onclick="window.location.href='{{ route('admin.dashboard') }}'">Admin</button>
 
     <!-- Tambahkan Font Awesome untuk ikon media sosial -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

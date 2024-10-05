@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Rute Bus {{ $id }} - Transportation Smart Destination</title>
+    <title>Detail Rute Bus {{ $busCode }} - Transportation Smart Destination</title>
     <style>
         /* Import Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
@@ -49,6 +49,7 @@
             font-size: 24px;
         }
 
+
         /* Navigasi */
         nav {
             margin-left: auto;
@@ -69,21 +70,26 @@
         }
         nav ul li a:hover {
             color: #e74c3c;
-        }
-
+        }        
         /* Konten */
         .container {
             padding: 150px 20px;
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         h1 {
+            text-align: center;
             font-size: 36px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+            color: #fff;
         }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
+
+        .bus-info {
+            background-color: rgba(224, 224, 224, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
         }
 
         /* Peta */
@@ -123,8 +129,9 @@
 
     </style>
 
-    <!-- Tambahkan Leaflet CSS untuk peta -->
+    <!-- Leaflet CSS untuk peta -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
 
 </head>
 <body>
@@ -149,8 +156,14 @@
 
     <!-- Konten -->
     <div class="container">
-        <h1>Detail Rute Bus {{ $id }}</h1>
-        <p>Pemberhentian: Stop 1 - Stop 2 - Stop 3 - Stop 4</p>
+        <h1>Detail Rute Bus {{ $busCode }}</h1>
+
+        <div class="bus-info">
+            <h2>Kode Bus: {{ $busCode }}</h2>
+            <p>Waktu Keberangkatan: {{ $departureTime }}</p>
+            <p>Estimasi Waktu Perjalanan: {{ $estimatedTime }} menit</p>
+            <p>Harga Tiket: Rp {{ $price }}</p>
+        </div>
 
         <!-- Div untuk peta -->
         <div id="map"></div>
@@ -166,46 +179,72 @@
         </div>
     </div>
 
-    <!-- Tambahkan Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
     <!-- Tambahkan Leaflet JS untuk peta -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <script>
+        // Data waypoints berdasarkan rute bus
+        const busRoutes = {
+            "D442": [
+                { lat: -7.2575, lng: 112.7521, halteName: "Halte Terminal Bungurasih" },
+                { lat: -7.2675, lng: 112.7621, halteName: "Halte Tunjungan Plaza" },
+                { lat: -7.2818, lng: 112.7957, halteName: "Halte ITS" },
+                { lat: -7.2919, lng: 112.7342, halteName: "Halte Kebun Binatang Surabaya" }
+            ],
+            "A273": [
+                { lat: -7.3798, lng: 112.7874, halteName: "Halte Juanda Airport" },
+                { lat: -7.2692, lng: 112.7521, halteName: "Halte Universitas Airlangga" },
+                { lat: -7.3387, lng: 112.7271, halteName: "Halte Masjid Al-Akbar" },
+                { lat: -7.2635, lng: 112.7577, halteName: "Halte Gubeng Station" }
+            ],
+            "B354": [
+                { lat: -7.2575, lng: 112.7521, halteName: "Halte Terminal Bungurasih" },
+                { lat: -7.2675, lng: 112.7621, halteName: "Halte Tunjungan Plaza" },
+                { lat: -7.3387, lng: 112.7271, halteName: "Halte Masjid Al-Akbar" }
+            ],
+            "C431": [
+                { lat: -7.2818, lng: 112.7957, halteName: "Halte ITS" },
+                { lat: -7.3387, lng: 112.7271, halteName: "Halte Masjid Al-Akbar" },
+                { lat: -7.2919, lng: 112.7342, halteName: "Halte Kebun Binatang Surabaya" }
+            ],
+            "F631": [
+                { lat: -7.2635, lng: 112.7577, halteName: "Halte Gubeng Station" },
+                { lat: -7.1816, lng: 112.7558, halteName: "Halte Suramadu Bridge" },
+                { lat: -7.2919, lng: 112.7342, halteName: "Halte Kebun Binatang Surabaya" }
+            ]
+        };
+
+        // Ambil data rute bus berdasarkan kode bus
+        const waypoints = busRoutes["{{ $busCode }}"];
+
         // Inisialisasi peta
-        var map = L.map('map').setView([-7.2575, 112.7521], 13);
+        var map = L.map('map').setView([waypoints[0].lat, waypoints[0].lng], 13);
 
         // Tambahkan layer peta (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Definisikan koordinat rute (contoh data)
-        var routeCoordinates = [
-            // Ganti dengan data koordinat rute sebenarnya
-            { lat: -7.2575 + Math.random() * 0.02, lng: 112.7521 + Math.random() * 0.02 },
-            { lat: -7.2575 + Math.random() * 0.02, lng: 112.7521 + Math.random() * 0.02 },
-            { lat: -7.2575 + Math.random() * 0.02, lng: 112.7521 + Math.random() * 0.02 },
-            { lat: -7.2575 + Math.random() * 0.02, lng: 112.7521 + Math.random() * 0.02 }
-        ];
-
-        // Buat array LatLng
-        var latlngs = routeCoordinates.map(function(coord) {
-            return [coord.lat, coord.lng];
+        // Tambahkan marker untuk setiap pemberhentian dengan keterangan halte
+        waypoints.forEach(function(point) {
+            L.marker([point.lat, point.lng]).addTo(map)
+                .bindPopup('Halte: ' + point.halteName);
         });
 
-        // Tambahkan marker untuk setiap pemberhentian
-        routeCoordinates.forEach(function(coord, index) {
-            L.marker([coord.lat, coord.lng]).addTo(map)
-                .bindPopup('Stop ' + (index + 1));
-        });
-
-        // Gambarkan polyline rute
-        var routeLine = L.polyline(latlngs, { color: 'red' }).addTo(map);
-
-        // Sesuaikan tampilan peta agar sesuai dengan rute
-        map.fitBounds(routeLine.getBounds());
+        // Tambahkan rute dengan Leaflet Routing Machine tanpa panel petunjuk arah
+        L.Routing.control({
+            waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),
+            lineOptions: {
+                styles: [{ color: 'red', weight: 5 }]
+            },
+            createMarker: function(i, waypoint, n) {
+                return null;  // Menggunakan marker sendiri, jadi tidak perlu marker tambahan dari routing machine
+            },
+            routeWhileDragging: false,
+            draggableWaypoints: false,
+            show: false  // Menghilangkan panel petunjuk arah
+        }).addTo(map);
     </script>
 
 </body>
