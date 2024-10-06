@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Route extends Model
 {
-    use HasFactory;
+    protected $table = 'routes'; // Nama tabel
 
-    // Jika nama tabel berbeda dari default (yaitu plural dari model), tambahkan nama tabel secara eksplisit:
-    protected $table = 'routes'; 
+    // Hubungan antara route dan posisi
+    public function startingPoint()
+    {
+        return $this->belongsTo(Position::class, 'starting_point');
+    }
+
+    public function endingPoint()
+    {
+        return $this->belongsTo(Position::class, 'ending_point');
+    }
 }

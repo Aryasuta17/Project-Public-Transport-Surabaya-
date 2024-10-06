@@ -33,5 +33,5 @@ Route::get('admin/dashboard', function () {
     return view('admin.dashboard'); // Pastikan ada file resources/views/admin/dashboard.blade.php
 })->name('admin.dashboard');
 
-Route::get('/cari-rute', [BusController::class, 'showSearchPage'])->name('cari.rute'); 
-Route::post('/cari-rute', [BusController::class, 'searchRoute'])->name('cari.rute.submit');
+Route::get('/cari-rute', [BusController::class, 'showSearchPage'])->name('cari-rute');
+Route::post('/cari-rute', [BusController::class, 'searchRoute']);
