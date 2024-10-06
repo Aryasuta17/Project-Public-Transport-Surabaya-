@@ -1,24 +1,49 @@
-<!-- resources/views/bus/result.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Pencarian Rute</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
 
-@extends('layouts.app')
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
 
-@section('content')
-<div class="container">
+        .result-item {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .result-item p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
     <h1>Hasil Pencarian Rute</h1>
 
-    @if($routes->isEmpty())
-        <p>Tidak ada rute yang ditemukan untuk titik awal dan akhir tersebut.</p>
+    @if(isset($route))
+        <div class="result-item">
+            <h2>{{ $route->route_name }}</h2>
+            <p>Jarak: {{ round($distance, 2) }} km</p>
+            <p>Perkiraan Waktu: {{ round($timeInMinutes, 2) }} menit</p>
+        </div>
     @else
-        <ul>
-            @foreach($routes as $route)
-            <li>
-                {{ $route->route_name }} - Dari {{ $route->starting_point }} ke {{ $route->ending_point }}
-            </li>
-            @endforeach
-        </ul>
+        <p>Tidak ada rute yang ditemukan untuk titik awal dan akhir tersebut.</p>
     @endif
 
-    <!-- Tombol kembali ke pencarian -->
-    <a href="{{ route('bus.searchPage') }}">Kembali ke pencarian</a>
-</div>
-@endsection
+</body>
+</html>
