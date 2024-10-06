@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Route extends Model
 {
-    protected $table = 'routes'; // Nama tabel
+    protected $table = 'routes';
 
-    // Hubungan antara route dan posisi
-    public function startingPoint()
+    public function schedule()
     {
-        return $this->belongsTo(Position::class, 'starting_point');
+        return $this->hasMany(Schedule::class);
     }
 
-    public function endingPoint()
+    public function stops()
     {
-        return $this->belongsTo(Position::class, 'ending_point');
+        return $this->hasMany(RouteStop::class);
     }
 }

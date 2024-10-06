@@ -210,8 +210,8 @@
             <ul>
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="#berita">Berita</a></li> <!-- Ini akan scroll ke bagian berita -->
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="services">Services</a></li>
+                <li><a href="contact">Contact Us</a></li>
                 <li><a href="{{ route('login') }}" class="btn-login">Login</a></li>
             </ul>
         </nav>

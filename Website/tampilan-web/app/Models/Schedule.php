@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model
 {
-    protected $table = 'schedules'; // Nama tabel
+    protected $table = 'schedules';
 
     public function bus()
     {
-        return $this->belongsTo(Bus::class, 'bus_id');
+        return $this->belongsTo(Bus::class);
     }
 
     public function route()
     {
-        return $this->belongsTo(Route::class, 'route_id');
+        return $this->belongsTo(Route::class);
     }
 }

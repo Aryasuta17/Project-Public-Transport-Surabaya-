@@ -3,98 +3,61 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Position;
-use App\Models\Route;
-use App\Models\RouteStop;
-use App\Models\Schedule;
-use App\Models\Bus;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class BusController extends Controller
 {
-    public function showSearchPage()
+    // Display the search page
+    public function search()
     {
-        $positions = Position::all();
-        return view('bus.search', ['positions' => $positions]);
+        $positions = DB::table('position')->get();
+        return view('bus.search', compact('positions'));
     }
 
+    // Handle the route search logic
     public function searchRoute(Request $request)
     {
-        $startPointId = $request->input('startPoint');
-        $endPointId = $request->input('endPoint');
+        $startPoint = $request->input('startPoint');
+        $endPoint = $request->input('endPoint');
 
-        // Cari rute yang mencakup titik awal dan akhir
-        $routes = Route::whereHas('startingPoint', function ($query) use ($startPointId) {
-            $query->where('id', $startPointId);
-        })
-        ->whereHas('endingPoint', function ($query) use ($endPointId) {
-            $query->where('id', $endPointId);
-        })
-        ->first();
+        // Fetch the routes based on start and end points
+        $results = DB::table('route_stop as start_stop')
+            ->join('routes', 'start_stop.route_id', '=', 'routes.id')
+            ->join('schedules', 'routes.id', '=', 'schedules.route_id')
+            ->join('buses', 'schedules.bus_id', '=', 'buses.id')
+            ->join('position as start_pos', 'start_stop.stop_id', '=', 'start_pos.id')
+            ->join('route_stop as end_stop', 'start_stop.route_id', '=', 'end_stop.route_id')
+            ->join('position as end_pos', 'end_stop.stop_id', '=', 'end_pos.id')
+            ->select(
+                'routes.route_name',
+                'buses.bus_number',
+                'buses.driver',
+                'schedules.departure_time',
+                'start_pos.halte_name as start_halte',
+                'end_pos.halte_name as end_halte',
+                DB::raw('(end_stop.stop_order - start_stop.stop_order) as stops_passed')
+            )
+            ->where('start_pos.id', '=', $startPoint)
+            ->where('end_pos.id', '=', $endPoint)
+            ->where('start_stop.stop_order', '<', DB::raw('end_stop.stop_order'))
+            ->get();
 
-        if ($routes) {
-            // Ambil jadwal bus untuk rute tersebut
-            $schedules = Schedule::where('route_id', $routes->id)->get();
+        // Calculate the travel time and estimated arrival
+        foreach ($results as $result) {
+            $travelTimeInMinutes = $result->stops_passed * 7.5;
+            $result->travel_time = $travelTimeInMinutes;
 
-            if ($schedules->count() > 0) {
-                $data = [];
+            $departureTime = Carbon::createFromFormat('H:i:s', $result->departure_time);
+            $adjustedDepartureTime = $departureTime->copy()->addMinutes($result->stops_passed * 7.5);
+            $result->adjusted_departure_time = $adjustedDepartureTime->format('H:i:s');
 
-                foreach ($schedules as $schedule) {
-                    $bus = Bus::find($schedule->bus_id);
-                    $routeStops = RouteStop::where('route_id', $routes->id)->get();
-                    $totalStops = $routeStops->count();
-                    
-                    // Perhitungan jarak dan waktu tempuh
-                    $distance = $this->calculateDistance($startPointId, $endPointId);
-                    $totalMinutes = $distance * 4; // 4 menit per km
-                    
-                    // Hitung jam tiba (berdasarkan departure_time + waktu tempuh)
-                    $arrivalTime = date('H:i', strtotime($schedule->departure_time) + ($totalMinutes * 60));
-
-                    $data[] = [
-                        'bus_number' => $bus->bus_number,
-                        'driver' => $bus->driver_name,
-                        'departure_time' => $schedule->departure_time,
-                        'arrival_time' => $arrivalTime, // Waktu sampai
-                        'stops_count' => $totalStops,
-                        'distance' => $distance, // Jarak (km)
-                    ];
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'routes' => $data
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Tidak ada jadwal bus untuk rute ini.'
-                ]);
-            }
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Rute tidak ditemukan.'
-            ]);
-        }
-    }
-
-    // Fungsi untuk menghitung jarak antar halte
-    public function calculateDistance($startPointId, $endPointId)
-    {
-        $start = Position::find($startPointId);
-        $end = Position::find($endPointId);
-
-        if ($start && $end) {
-            $theta = $start->longitude - $end->longitude;
-            $dist = sin(deg2rad($start->latitude)) * sin(deg2rad($end->latitude)) +  cos(deg2rad($start->latitude)) * cos(deg2rad($end->latitude)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $kilometers = $miles * 1.609344;
-
-            return $kilometers;
+            $estimatedArrivalTime = $adjustedDepartureTime->copy()->addMinutes($travelTimeInMinutes);
+            $result->estimated_arrival_time = $estimatedArrivalTime->format('H:i:s');
         }
 
-        return 0;
+        // Return search results and position data to the view
+        $positions = DB::table('position')->get();
+        return view('bus.search', compact('results', 'positions', 'startPoint', 'endPoint'));
     }
 }
