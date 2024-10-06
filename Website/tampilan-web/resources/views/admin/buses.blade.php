@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Berita</title>
+    <title>Admin - Bus Management</title>
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -130,34 +130,34 @@
             </a>
         </div>
         <a href="{{ route('admin.dashboard') }}">Home</a>
-        <a href="{{ route('admin.news') }}" class="bg-gray-700 text-white">Berita</a>
-        <a href="{{ route('admin.buses') }}">Bus</a>
+        <a href="{{ route('admin.news') }}">Berita</a>
+        <a href="{{ route('admin.buses') }}" class="bg-gray-700 text-white">Bus</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Header -->
         <div class="header">
-            <h1>Berita Management</h1>
+            <h1>Bus Management</h1>
             <div class="actions">
-                <button>New Post</button>
+                <button>New Bus</button>
             </div>
         </div>
 
-        <!-- News Overview -->
+        <!-- Bus Overview -->
         <div class="grid grid-cols-3 gap-6">
-            <!-- Example News Item -->
+            <!-- Example Bus Item -->
             <div class="card">
-                <h2>Berita Title 1</h2>
-                <p>Manage your news articles and control the visibility of the latest updates.</p>
+                <h2>Bus A001</h2>
+                <p>Driver: Bapak Anton Suyadi</p>
             </div>
 
             <div class="card">
-                <h2>Berita Title 2</h2>
-                <p>Publish, edit or delete articles based on relevance and audience feedback.</p>
+                <h2>Bus A002</h2>
+                <p>Driver: Bapak Budi Santoso</p>
             </div>
 
-            <!-- Add more articles here -->
+            <!-- Add more buses here -->
         </div>
 
         <!-- Footer -->

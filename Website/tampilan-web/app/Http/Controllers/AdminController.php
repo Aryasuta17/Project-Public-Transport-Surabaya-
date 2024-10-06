@@ -2,34 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function index()
     {
         return view('admin.dashboard');
     }
 
-    public function manageNews()
+    public function news()
     {
-        $news = News::all();
-        return view('admin.manage_news', compact('news'));
+        return view('admin.news');
     }
 
-    public function createNews(Request $request)
+    public function buses()
     {
-        // Code to create news
+        return view('admin.buses');
     }
 
-    public function updateNews(Request $request, $id)
+    public function profile()
     {
-        // Code to update news
-    }
-
-    public function deleteNews($id)
-    {
-        // Code to delete news
+        return view('admin.profile');
     }
 }

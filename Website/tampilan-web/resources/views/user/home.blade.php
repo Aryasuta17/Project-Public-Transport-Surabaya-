@@ -161,7 +161,7 @@
             <ul>
                 <li><a href="{{ route('user.home') }}">Beranda</a></li>
                 <li><a href="{{ route('user.home') }}">Berita</a></li>
-                <li><a href="{{ route('cari-rute') }}">Transportasi</a></li>
+                <li><a href="{{ route('search.route') }}">Transportasi</a></li>
                 <li><a href="{{ route('user.home') }}">Diskusi</a></li>
                 <li><a href="{{ route('user.home') }}">Kontak Kami</a></li>
                 <li><a href="{{ route('user.home') }}" class="btn-logout">Logout</a></li> <!-- Tombol Logout -->
@@ -173,7 +173,7 @@
     <div class="container">
         <h1>Selamat Anda Telah Berhasil Login Kedalam Transportation Smart Destination</h1>
         <div class="start-journey">
-            <a href="{{ route('cari-rute') }}">Mulai Perjalanan</a>
+            <a href="{{ route('search.route') }}">Mulai Perjalanan</a>
         </div>
     </div>
 
