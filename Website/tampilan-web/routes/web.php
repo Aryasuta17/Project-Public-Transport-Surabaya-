@@ -1,93 +1,37 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BusController;
-use App\Http\Controllers\TrainController;
-use App\Http\Controllers\AdminController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Di sini Anda dapat mendaftarkan route web untuk aplikasi Anda. Route
-| ini dimuat oleh RouteServiceProvider dalam grup yang berisi "web"
-| middleware group. Mari kita buat sesuatu yang hebat!
-|
-*/
-
-// Beranda
+// Route untuk halaman welcome
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return view('welcome'); // Pastikan ada file resources/views/welcome.blade.php
+})->name('welcome');
 
-// Berita
-Route::get('/berita', function () {
-    return view('berita');
-})->name('berita');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
-// Pilihan Transportasi
-Route::get('/pilihan-transportasi', function () {
-    return view('pilihan_transportasi');
-})->name('pilihan.transportasi');
+// Rute untuk login
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
 
-// Rute Bus
-Route::get('/rute-bus', [BusController::class, 'index'])->name('rute.bus');
+// Rute untuk logout
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Detail Rute Bus
-Route::get('/detail-rute-bus/{id}', [BusController::class, 'show'])->name('detail.rute.bus');
+// Rute untuk register
+Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
 
-// Rute Kereta
-Route::get('/rute-kereta', [TrainController::class, 'ruteKereta'])->name('rute.kereta');
-Route::get('/detail-rute-kereta/{start}/{end}', [TrainController::class, 'detailRuteKereta'])->name('detail.rute.kereta');
+// Rute untuk user home
+Route::get('user/home', function () {
+    return view('user.home'); // Pastikan ada file resources/views/user/home.blade.php
+})->name('user.home');
 
-// Diskusi
-Route::get('/diskusi', function () {
-    return view('diskusi');
-})->name('diskusi');
+// Rute untuk dashboard admin
+Route::get('admin/dashboard', function () {
+    return view('admin.dashboard'); // Pastikan ada file resources/views/admin/dashboard.blade.php
+})->name('admin.dashboard');
 
-// Kontak Kami
-Route::get('/contact-us', function () {
-    return view('contact_us');
-})->name('contact.us');
-
-// Login
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-// Register
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
-// Logout (Jika diperlukan)
-Route::post('/logout', function () {
-    // Logic untuk logout pengguna
-    return redirect()->route('home');
-})->name('logout');
-
-// --------------------
-// Admin Routes
-// --------------------
-
-// Route untuk dashboard admin
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-// Route untuk halaman manage users
-Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manage.users');
-
-// Route untuk halaman manage routes
-Route::get('/admin/routes', [AdminController::class, 'manageRoutes'])->name('admin.manage.routes');
-
-// Route untuk halaman manage transport
-Route::get('/admin/transport', [AdminController::class, 'manageTransport'])->name('admin.manage.transport');
-
-// Route untuk halaman settings
-Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
-
-Route::post('/logout', function () {
-    Auth::logout();  // Logs out the user
-    return redirect()->route('home');  // Redirects to home after logout
-})->name('logout');
+Route::get('/cari-rute', [BusController::class, 'showSearchPage'])->name('bus.searchPage');
+Route::post('/cari-rute/search', [BusController::class, 'searchRoute'])->name('bus.searchRoute');

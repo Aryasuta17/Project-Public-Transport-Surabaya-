@@ -2,27 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function dashboard() {
-        return view('admin.pages.dashboard');
+    public function dashboard()
+    {
+        return view('admin.dashboard');
     }
 
-    public function manageUsers() {
-        return view('admin.pages.manage_users');
+    public function manageNews()
+    {
+        $news = News::all();
+        return view('admin.manage_news', compact('news'));
     }
 
-    public function manageRoutes() {
-        return view('admin.pages.manage_routes');
+    public function createNews(Request $request)
+    {
+        // Code to create news
     }
 
-    public function manageTransport() {
-        return view('admin.pages.manage_transport');
+    public function updateNews(Request $request, $id)
+    {
+        // Code to update news
     }
 
-    public function settings() {
-        return view('admin.pages.settings');
+    public function deleteNews($id)
+    {
+        // Code to delete news
     }
 }
