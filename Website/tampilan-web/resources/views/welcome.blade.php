@@ -1,3 +1,5 @@
+<!-- resources/views/welcome.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +30,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Logo dan Teks di Sebelahnya */
         .logo-container {
             display: flex;
             align-items: center;
@@ -164,16 +165,22 @@
         .news-card {
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .news-card img {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
         .news-card h3 {
@@ -185,6 +192,24 @@
         .news-card p {
             font-size: 16px;
             color: #666;
+        }
+
+        .btn-read-more {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-read-more:hover {
+            background-color: #ff6347;
+            box-shadow: 0 4px 12px rgba(255, 99, 71, 0.4);
         }
 
         footer {
@@ -209,7 +234,7 @@
         <nav>
             <ul>
                 <li><a href="{{ route('welcome') }}">Home</a></li>
-                <li><a href="#berita">Berita</a></li> <!-- Ini akan scroll ke bagian berita -->
+                <li><a href="#berita">Berita</a></li>
                 <li><a href="services">Services</a></li>
                 <li><a href="contact">Contact Us</a></li>
                 <li><a href="{{ route('login') }}" class="btn-login">Login</a></li>
@@ -263,9 +288,10 @@
         <div class="news-grid">
             @foreach($news as $berita)
                 <div class="news-card">
-                    <img src="{{ asset('storage/' . $berita->image) }}" alt="{{ $berita->title }}" style="max-width: 200px;">
+                    <img src="{{ asset('storage/' . $berita->image) }}" alt="{{ $berita->title }}">
                     <h3>{{ $berita->title }}</h3>
                     <p>{{ Str::limit($berita->content, 100) }}</p>
+                    <a href="{{ route('berita.show', $berita->id) }}" class="btn-read-more">Read More</a>
                 </div>
             @endforeach
         </div>

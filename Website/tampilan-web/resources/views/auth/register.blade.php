@@ -22,16 +22,18 @@
         /* Navbar Styling */
         nav {
             background-color: #333;
-            padding: 10px 20px;
+            padding: 10px 0; /* Sesuaikan padding atas dan bawah */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%; /* Pastikan navbar melebar penuh */
         }
 
         .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1200px; /* Lebar maksimum untuk mengatur jarak item */
             margin: 0 auto;
+            padding: 0 20px; /* Tambahkan padding untuk jarak dari tepi */
             width: 100%;
         }
 
@@ -84,11 +86,18 @@
             box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
             width: 400px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .register-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);
         }
 
         .register-box h2 {
             margin-bottom: 30px;
             font-size: 1.8em;
+            color: #333;
         }
 
         .form-group {
@@ -107,6 +116,7 @@
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 1em;
         }
 
         .btn-submit {
@@ -123,6 +133,14 @@
 
         .btn-submit:hover {
             background-color: #ff4500;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -142,7 +160,6 @@
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="{{ route('services') }}">Services</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                <!-- Tombol Register dihilangkan -->
             </ul>
         </div>
     </nav>
@@ -193,7 +210,7 @@
     </div>
 
     <!-- Footer -->
-    <footer style="background-color: #333; color: white; text-align: center; padding: 20px; margin-top: 20px;">
+    <footer>
         <p>&copy; 2024 Transportation Smart Destination. All rights reserved.</p>
     </footer>
 </body>

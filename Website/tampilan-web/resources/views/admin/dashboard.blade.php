@@ -125,9 +125,10 @@
                 <img src="{{ asset('images/logo.png') }}" alt="Logo">
             </a>
         </div>
-        <a href="{{ route('admin.dashboard') }}">Home</a>
-        <a href="{{ route('admin.news.index') }}" class="bg-gray-700 text-white">Berita</a>
+        <a href="{{ route('admin.dashboard') }}" class="bg-gray-700 text-white" >Home</a>
+        <a href="{{ route('admin.news.index') }}" >Berita</a>
         <a href="{{ route('admin.buses.index') }}">Bus</a>
+        <a href="{{ route('admin.schedules.index') }}">Schedule</a>
     </div>
 
     <!-- Main Content -->
@@ -148,19 +149,19 @@
             <!-- Home Overview Card -->
             <div class="card">
                 <h2>Admin Home</h2>
-                <p>Access general settings, manage users, and more.</p>
+                <p>Selamat Datang Admin !.</p>
             </div>
 
             <!-- Berita Overview Card -->
             <div class="card">
                 <h2>Berita</h2>
-                <p>Manage all news articles, publish or delete posts.</p>
+                <p>Silahkan melakukan management pada berita. Membuat berita, Mengedit Berita, Menghapus Berita.</p>
             </div>
 
             <!-- Bus Overview Card -->
             <div class="card">
                 <h2>Bus Management</h2>
-                <p>View and manage bus routes, schedules, and drivers.</p>
+                <p>Silahkan melakukan management pada bus. Rute bus, Driver Bus, Jadwal Bus</p>
             </div>
         </div>
 

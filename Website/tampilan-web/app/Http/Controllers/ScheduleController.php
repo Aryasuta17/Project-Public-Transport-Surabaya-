@@ -11,7 +11,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $schedules = Schedule::with(['bus', 'route'])->get();
+        $schedules = Schedule::with('bus', 'route')->get();
         return view('admin.schedules.index', compact('schedules'));
     }
 
@@ -25,8 +25,8 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'bus_id' => 'required',
-            'route_id' => 'required',
+            'bus_id' => 'required|exists:buses,id',
+            'route_id' => 'required|exists:routes,id',
             'departure_time' => 'required|date_format:H:i:s',
         ]);
 
@@ -46,8 +46,8 @@ class ScheduleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'bus_id' => 'required',
-            'route_id' => 'required',
+            'bus_id' => 'required|exists:buses,id',
+            'route_id' => 'required|exists:routes,id',
             'departure_time' => 'required|date_format:H:i:s',
         ]);
 

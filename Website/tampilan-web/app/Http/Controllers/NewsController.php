@@ -13,6 +13,12 @@ class NewsController extends Controller
         return view('admin.news.index', compact('news'));
     }
 
+    public function show($id)
+    {
+        $berita = News::findOrFail($id);
+        return view('berita.show', compact('berita'));
+    }
+    
     public function create()
     {
         return view('admin.news.create');

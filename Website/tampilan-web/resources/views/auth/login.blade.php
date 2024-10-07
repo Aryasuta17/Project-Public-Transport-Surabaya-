@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #f4f4f4;
             display: flex;
             flex-direction: column;
@@ -79,16 +79,23 @@
 
         .login-box {
             background-color: white;
-            padding: 60px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 400px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .login-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .login-box h2 {
             margin-bottom: 30px;
             font-size: 1.8em;
+            color: #333;
         }
 
         .form-group {
@@ -100,13 +107,20 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #333;
         }
 
         .form-group input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #ff6347;
+            outline: none;
         }
 
         .btn-submit {
@@ -114,15 +128,24 @@
             color: white;
             border: none;
             padding: 12px;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
             width: 100%;
             font-size: 1.1em;
         }
 
         .btn-submit:hover {
             background-color: #ff4500;
+            box-shadow: 0 8px 20px rgba(255, 99, 71, 0.3);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -142,7 +165,6 @@
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="{{ route('services') }}">Services</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                <!-- Tombol Register dihilangkan -->
             </ul>
         </div>
     </nav>
@@ -183,7 +205,7 @@
     </div>
 
     <!-- Footer -->
-    <footer style="background-color: #333; color: white; text-align: center; padding: 20px; margin-top: 20px;">
+    <footer>
         <p>&copy; 2024 Transportation Smart Destination. All rights reserved.</p>
     </footer>
 </body>

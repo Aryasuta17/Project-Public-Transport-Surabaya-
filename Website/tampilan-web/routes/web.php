@@ -12,6 +12,8 @@ use App\Http\Controllers\ScheduleController;
 // Route for the welcome page
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome'); 
 
+Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita.show');
+
 // Route for the search page (different URL from welcome)
 Route::get('/search', [BusController::class, 'search'])->name('search');
 
@@ -75,3 +77,5 @@ Route::prefix('admin')->group(function () {
     Route::put('schedules/{id}', [ScheduleController::class, 'update'])->name('admin.schedules.update');
     Route::delete('schedules/{id}', [ScheduleController::class, 'destroy'])->name('admin.schedules.destroy');
 });
+
+Route::get('/bus/{routeId}/{scheduleId}', [BusController::class, 'showDetails'])->name('bus.details');
