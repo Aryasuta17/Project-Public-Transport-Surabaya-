@@ -130,7 +130,7 @@
             </a>
         </div>
         <a href="{{ route('admin.dashboard') }}">Home</a>
-        <a href="{{ route('admin.news') }}" class="bg-gray-700 text-white">Berita</a>
+        <a href="{{ route('admin.news.index') }}" class="bg-gray-700 text-white">Berita</a>
         <a href="{{ route('admin.buses') }}">Bus</a>
     </div>
 
@@ -140,24 +140,29 @@
         <div class="header">
             <h1>Berita Management</h1>
             <div class="actions">
-                <button>New Post</button>
+                <a href="{{ route('admin.news.create') }}">
+                    <button>New Post</button>
+                </a>
             </div>
         </div>
 
         <!-- News Overview -->
         <div class="grid grid-cols-3 gap-6">
-            <!-- Example News Item -->
+            @foreach($news as $berita)
             <div class="card">
-                <h2>Berita Title 1</h2>
-                <p>Manage your news articles and control the visibility of the latest updates.</p>
+                <img src="{{ asset('storage/' . $berita->image) }}" alt="{{ $berita->title }}" style="max-width: 200px;" class="mb-4">
+                <h2>{{ $berita->title }}</h2>
+                <p>{{ Str::limit($berita->content, 100) }}</p>
+                <div class="flex justify-between mt-4">
+                    <a href="{{ route('admin.news.edit', $berita->id) }}" class="text-blue-500">Edit</a>
+                    <form action="{{ route('admin.news.destroy', $berita->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500">Delete</button>
+                    </form>
+                </div>
             </div>
-
-            <div class="card">
-                <h2>Berita Title 2</h2>
-                <p>Publish, edit or delete articles based on relevance and audience feedback.</p>
-            </div>
-
-            <!-- Add more articles here -->
+            @endforeach
         </div>
 
         <!-- Footer -->

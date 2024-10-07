@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
 
-    <!-- Custom styles for modern look -->
     <style>
-        /* Global Font Styling */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F5F7FA;
         }
 
-        /* Sidebar styling */
         .sidebar {
             width: 280px;
             min-height: 100vh;
@@ -43,22 +39,16 @@
             color: #FFFFFF;
         }
 
-        .sidebar .logo {
-            margin-bottom: 20px;
-        }
-
         .sidebar .logo img {
             width: 160px;
         }
 
-        /* Main content */
         .main-content {
             margin-left: 280px;
             padding: 30px;
             background-color: #F9FAFB;
         }
 
-        /* Header */
         .header {
             background-color: #FFFFFF;
             padding: 20px;
@@ -76,11 +66,6 @@
             color: #1F2937;
         }
 
-        .header .actions {
-            display: flex;
-            gap: 10px;
-        }
-
         .header .actions button {
             background-color: #1F2937;
             color: white;
@@ -93,7 +78,6 @@
             background-color: #111827;
         }
 
-        /* Cards */
         .card {
             background-color: white;
             padding: 20px;
@@ -118,7 +102,6 @@
             color: #6B7280;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 20px;
@@ -133,7 +116,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <!-- Sidebar -->
@@ -143,18 +125,17 @@
                 <img src="{{ asset('images/logo.png') }}" alt="Logo">
             </a>
         </div>
-        <a href="{{ route('admin.dashboard') }}" class="bg-gray-700 text-white">Home</a>
-        <a href="{{ route('admin.news') }}">Berita</a>
-        <a href="{{ route('admin.buses') }}">Bus</a>
+        <a href="{{ route('admin.dashboard') }}">Home</a>
+        <a href="{{ route('admin.news.index') }}" class="bg-gray-700 text-white">Berita</a>
+        <a href="{{ route('admin.buses.index') }}">Bus</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Header -->
         <div class="header">
-            <h1>Welcome, Admin</h1>
+            <h1>Admin Dashboard</h1>
             <div class="actions">
-                <!-- Logout Button -->
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit">Logout</button>
@@ -190,5 +171,4 @@
     </div>
 
 </body>
-
 </html>

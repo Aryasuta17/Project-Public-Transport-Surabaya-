@@ -8,6 +8,8 @@ class Schedule extends Model
 {
     protected $table = 'schedules';
 
+    protected $fillable = ['bus_id', 'route_id', 'departure_time'];
+
     public function bus()
     {
         return $this->belongsTo(Bus::class);

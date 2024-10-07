@@ -263,9 +263,9 @@
         <div class="news-grid">
             @foreach($news as $berita)
                 <div class="news-card">
-                    <img src="{{ asset('images/news.jpg') }}" alt="News Image"> <!-- Replace with dynamic image path -->
+                    <img src="{{ asset('storage/' . $berita->image) }}" alt="{{ $berita->title }}" style="max-width: 200px;">
                     <h3>{{ $berita->title }}</h3>
-                    <p>{{ Str::limit($berita->content, 100) }}</p> <!-- Show first 100 characters of content -->
+                    <p>{{ Str::limit($berita->content, 100) }}</p>
                 </div>
             @endforeach
         </div>

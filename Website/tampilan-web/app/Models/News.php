@@ -9,6 +9,7 @@ class News extends Model
 {
     use HasFactory;
 
-    protected $table = 'news'; // Nama tabel di database
-    protected $fillable = ['title', 'content']; // Kolom yang dapat diisi
+    protected $table = 'news';
+    
+    protected $fillable = ['title', 'content', 'image']; // Tambahkan 'image'
 }

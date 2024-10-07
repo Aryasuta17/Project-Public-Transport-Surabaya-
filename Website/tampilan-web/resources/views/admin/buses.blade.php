@@ -131,7 +131,7 @@
         </div>
         <a href="{{ route('admin.dashboard') }}">Home</a>
         <a href="{{ route('admin.news') }}">Berita</a>
-        <a href="{{ route('admin.buses') }}" class="bg-gray-700 text-white">Bus</a>
+        <a href="{{ route('admin.buses.index') }}" class="bg-gray-700 text-white">Bus</a>
     </div>
 
     <!-- Main Content -->
