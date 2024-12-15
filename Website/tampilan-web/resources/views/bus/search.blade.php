@@ -7,14 +7,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Gaya Umum */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f5f5f5;
@@ -33,14 +25,8 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
         .logo img {
             height: 50px;
-            margin-right: 15px; /* Memberi jarak antara logo dan teks */
         }
 
         .navbar-title {
@@ -149,7 +135,7 @@
         }
 
         footer {
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
             padding: 20px;
@@ -169,14 +155,12 @@
 <body>
     <!-- Navbar -->
     <div class="navbar">
-        <div class="logo-container">
-            <div class="logo">
-                <a href="{{ route('welcome') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Transportation Smart Destination">
-                </a>
-            </div>
-            <div class="navbar-title">Transportation Smart Destination</div>
+        <div class="logo">
+            <a href="{{ route('welcome') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Transportation Smart Destination">
+            </a>
         </div>
+        <div class="navbar-title">Transportation Smart Destination</div>
         <div class="nav-links">
             <a href="{{ route('user.home') }}">Beranda</a>
             <a href="{{ route('welcome') }}">Logout</a>
@@ -243,7 +227,6 @@
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Transportation Smart Destination. All rights reserved.</p>
-        <p><a href="{{ route('contact') }}">Contact Us</a></p>
     </footer>
 </body>
 </html>

@@ -10,10 +10,10 @@ class BusController extends Controller
 {
     public function search()
     {
-        // Hanya ambil posisi halte di dalam area Surabaya
+        // Only get positions within Surabaya
         $positions = DB::table('position')
-            ->whereBetween('latitude', [-7.3506, -7.1506])  // Batas latitude Surabaya
-            ->whereBetween('longitude', [112.6079, 112.8079])  // Batas longitude Surabaya
+            ->whereBetween('latitude', [-7.3506, -7.1506])  // Surabaya latitude bounds
+            ->whereBetween('longitude', [112.6079, 112.8079])  // Surabaya longitude bounds
             ->get();
         
         return view('bus.search', compact('positions'));
@@ -48,7 +48,7 @@ class BusController extends Controller
                 ->where('start_pos.id', '=', $startPoint)
                 ->where('end_pos.id', '=', $endPoint)
                 ->where('start_stop.stop_order', '<', DB::raw('end_stop.stop_order'))
-                // Hanya rute di Surabaya
+                // Ensure only routes within Surabaya
                 ->whereExists(function ($query) {
                     $query->select(DB::raw(1))
                         ->from('position')
@@ -59,7 +59,7 @@ class BusController extends Controller
                 ->get();
 
             foreach ($results as $result) {
-                $travelTimeInMinutes = $result->stops_passed * 5; // Perkiraan waktu tempuh per halte
+                $travelTimeInMinutes = $result->stops_passed * 5; // Adjusted for Surabaya traffic
                 $result->travel_time = $travelTimeInMinutes;
                 
                 $departureTime = Carbon::createFromFormat('H:i:s', $result->departure_time);
@@ -78,9 +78,8 @@ class BusController extends Controller
         return view('bus.search', compact('results', 'positions', 'startPoint', 'endPoint'));
     }
 
-    public function showDetails($routeId, $scheduleId, Request $request)
+    public function showDetails($routeId, $scheduleId)
     {
-        // Ambil detail bus
         $busDetails = DB::table('routes')
             ->join('schedules', 'routes.id', '=', 'schedules.route_id')
             ->join('buses', 'schedules.bus_id', '=', 'buses.id')
@@ -89,21 +88,12 @@ class BusController extends Controller
             ->select('routes.route_name', 'buses.bus_number', 'buses.driver', 'schedules.departure_time')
             ->first();
 
-        // Ambil informasi titik awal dan titik akhir dari request
-        $startPoint = $request->input('startPoint');
-        $endPoint = $request->input('endPoint');
-
-        // Ambil halte-halte yang ada di antara titik awal dan akhir berdasarkan stop_order
         $stops = DB::table('route_stop')
             ->join('position', 'route_stop.stop_id', '=', 'position.id')
             ->where('route_stop.route_id', $routeId)
-            ->whereBetween('route_stop.stop_order', function ($query) use ($startPoint, $endPoint) {
-                $query->select(DB::raw("LEAST(start_stop.stop_order, end_stop.stop_order)"))
-                      ->from('route_stop as start_stop')
-                      ->join('route_stop as end_stop', 'start_stop.route_id', '=', 'end_stop.route_id')
-                      ->where('start_stop.stop_id', '=', $startPoint)
-                      ->where('end_stop.stop_id', '=', $endPoint);
-            })
+            // Menggunakan array untuk whereBetween
+            ->whereBetween('position.latitude', [-7.3506, -7.1506])
+            ->whereBetween('position.longitude', [112.6079, 112.8079])
             ->orderBy('route_stop.stop_order')
             ->select('position.halte_name', 'position.latitude', 'position.longitude')
             ->get();

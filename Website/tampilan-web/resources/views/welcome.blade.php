@@ -18,7 +18,7 @@
 
         /* Header */
         header {
-            background-color: #333;
+            background-color: #2c3e50;
             color: #fff;
             padding: 20px;
             display: flex;
@@ -66,7 +66,7 @@
         }
 
         nav ul li a:hover {
-            background-color: #ff6347;
+            background-color: #2c3e50;
             color: #fff;
         }
 
@@ -213,7 +213,7 @@
         }
 
         footer {
-            background-color: #333;
+            background-color: #2c3e50;
             color: #fff;
             padding: 20px;
             text-align: center;
@@ -263,19 +263,19 @@
                 <p>Bus yang tersedia</p>
             </div>
             <div class="info-box">
-                <img src="{{ asset('images/train-icon.png') }}" alt="Kereta">
-                <h3>20 Kereta</h3>
+                <img src="{{ asset('images/rute-icon.png') }}" alt="Kereta">
+                <h3>56 Halte</h3>
                 <p>Kereta yang siap melayani</p>
             </div>
             <div class="info-box">
                 <img src="{{ asset('images/user-icon.png') }}" alt="User">
-                <h3>1000 Pengguna</h3>
+                <h3>10 Pengguna</h3>
                 <p>Pengguna aktif</p>
             </div>
             <div class="info-box">
-                <img src="{{ asset('images/partner-icon.png') }}" alt="Mitra">
-                <h3>50 Mitra</h3>
-                <p>Mitra kerjasama</p>
+                <img src="{{ asset('images/driver-icon.png') }}" alt="Mitra">
+                <h3>48 Driver</h3>
+                <p>Driver Berkualitas</p>
             </div>
         </div>
     </div>
@@ -299,7 +299,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Transportation Smart Destination</p>
+        <p>&copy; 2024 Transportation Smart Destination. All rights reserved.</p>
     </footer>
 </body>
 </html>

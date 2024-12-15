@@ -21,7 +21,7 @@
 
         /* Navbar Styling */
         nav {
-            background-color: #333;
+            background-color: #2c3e50;
             padding: 10px 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -141,7 +141,7 @@
         }
 
         footer {
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
             padding: 20px;

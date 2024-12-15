@@ -25,7 +25,7 @@
 
         /* Navbar Styling */
         nav {
-            background-color: #333;
+            background-color: #2c3e50;
             padding: 10px 20px;
         }
 
@@ -111,7 +111,7 @@
 
         /* Footer Styling */
         footer {
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
             padding: 20px;
@@ -134,7 +134,7 @@
             <ul>
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="{{ route('services') }}">Services</a></li>
-                <li><a href="{{ route('contact') }}">Hubungi Kami</a></li>
+                <li><a href="{{ route('contact') }}">Contact Us</a></li>
                 <li><a href="{{ route('login') }}" class="btn-login">Login</a></li>
             </ul>
         </div>

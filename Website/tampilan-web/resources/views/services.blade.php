@@ -25,7 +25,7 @@
 
         /* Navbar Styling */
         nav {
-            background-color: #333;
+            background-color: #2c3e50; /* Dark navbar background color */
             padding: 10px 20px;
         }
 
@@ -41,7 +41,7 @@
         }
 
         nav .navbar-title {
-            color: white;
+            color: #ecf0f1; /* Light text color for the title */
             font-size: 24px;
             font-weight: bold;
         }
@@ -57,7 +57,7 @@
         }
 
         nav ul li a {
-            color: white;
+            color: #ecf0f1; /* Light text color for links */
             text-decoration: none;
             font-weight: bold;
             padding: 8px 16px;
@@ -65,7 +65,7 @@
         }
 
         nav ul li a:hover {
-            background-color: #ff6347;
+            background-color: #34495e; /* Darker hover background */
             border-radius: 5px;
         }
 
@@ -74,6 +74,7 @@
             padding: 8px 16px;
             border-radius: 5px;
             transition: background-color 0.3s;
+            color: white; /* Text color for login button */
         }
 
         .btn-login:hover {
@@ -108,6 +109,13 @@
             text-align: center;
         }
 
+        .service-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px; /* Margin between image and title */
+            border-radius: 10px; /* Rounded corners for the image */
+        }
+
         .service-card h2 {
             margin-bottom: 15px;
             font-size: 1.5em;
@@ -127,6 +135,14 @@
             font-size: 1em;
             display: inline-block;
             transition: background-color 0.3s;
+            
+        }
+
+        .service-card img {
+            width: 100%; /* Pastikan gambar menggunakan lebar penuh dari container */
+            max-width: 150px; /* Batas maksimal lebar gambar agar tidak terlalu besar */
+            height: auto; /* Sesuaikan tinggi otomatis agar proporsional */
+            margin-bottom: 15px;
         }
 
         .service-card a:hover {
@@ -135,7 +151,7 @@
 
         /* Footer Styling */
         footer {
-            background-color: #333;
+            background-color: #2c3e50; /* Dark footer background */
             color: white;
             text-align: center;
             padding: 20px;
@@ -152,7 +168,6 @@
                         <img src="{{ asset('images/logo.png') }}" alt="Transportation Smart Destination">
                     </a>
                 </div>
-                <!-- Judul Transportation Smart Destination di Navbar -->
                 <div class="navbar-title">Transportation Smart Destination</div>
             </div>
             <ul>
@@ -169,19 +184,19 @@
         <h1>Our Services</h1>
         <div class="services-list">
             <div class="service-card">
-                <h2>Service 1</h2>
-                <p>Description of Service 1.</p>
-                <a href="#">Learn More</a>
+                <img src="{{ asset('images/rute-icon.png') }}" alt="Rute Transportasi Cerdas">
+                <h2>48 Halte yang tersebar di seluruh surabaya</h2>
+                <p>Terdapat 48 hate yang tersebar dalam 8 rute yang berbeda</p>
             </div>
             <div class="service-card">
-                <h2>Service 2</h2>
-                <p>Description of Service 2.</p>
-                <a href="#">Learn More</a>
+                <img src="{{ asset('images/waktu-icon.png') }}" alt="Estimasi Waktu Kedatangan Yang Tepat">
+                <h2>Estimasi Waktu Kedatangan</h2>
+                <p>Layanan ini memberikan estimasi waktu perjalanan berdasarkan halte yang dipilih pengguna</p>
             </div>
             <div class="service-card">
-                <h2>Service 3</h2>
-                <p>Description of Service 3.</p>
-                <a href="#">Learn More</a>
+                <img src="{{ asset('images/driver-icon.png') }}" alt="Pengaturan Jadwal Perjalanan">
+                <h2>Driver terlatih</h2>
+                <p>Keunggulan kami adalah kami memiliki driver yang terlatih dan dapat dipercaya</p>
             </div>
             <!-- Tambahkan lebih banyak service-card jika diperlukan -->
         </div>

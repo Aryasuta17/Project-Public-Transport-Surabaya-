@@ -244,7 +244,7 @@
     </div>
 
     <!-- Footer -->
-    <footer style="background-color: #333; color: white; text-align: center; padding: 20px; margin-top: 20px;">
+    <footer style="background-color: #2c3e50; color: white; text-align: center; padding: 20px; margin-top: 20px;">
         <p>&copy; 2024 Transportation Smart Destination. All rights reserved.</p>
     </footer>
 </body>

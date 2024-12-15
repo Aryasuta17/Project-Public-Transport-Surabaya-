@@ -8,13 +8,16 @@ use App\Http\Controllers\BusController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\BusAdminController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\FactPendapatanController;
+use App\Http\Controllers\FactPelangganController;
+use App\Http\Controllers\FactLogisticsController;
 
 // Route for the welcome page
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome'); 
 
 Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita.show');
 
-// Route for the search page (different URL from welcome)
+// Route for the search page
 Route::get('/search', [BusController::class, 'search'])->name('search');
 
 // Route to handle the search form submission and display the results
@@ -30,7 +33,7 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-// Routes for login, register, etc.
+// Authentication routes
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', function() {
@@ -47,6 +50,26 @@ Route::get('user/home', function () {
 
 // Admin dashboard routes
 Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+Route::get('/admin/olap-dashboard', [AdminController::class, 'olapDashboard'])->name('admin.olap-dashboard');
+
+Route::prefix('fact-pendapatan')->group(function () {
+    Route::get('/', [FactPendapatanController::class, 'index']);
+    Route::get('/group/{column}', [FactPendapatanController::class, 'groupBy']);
+    Route::get('/filter', [FactPendapatanController::class, 'filter']);
+});
+
+Route::prefix('fact-pelanggan')->group(function () {
+    Route::get('/', [FactPelangganController::class, 'index']);
+    Route::get('/group/{column}', [FactPelangganController::class, 'groupBy']);
+    Route::get('/filter', [FactPelangganController::class, 'filter']);
+});
+
+Route::prefix('fact-logistics')->group(function () {
+    Route::get('/', [FactLogisticsController::class, 'index']);
+    Route::get('/group/{column}', [FactLogisticsController::class, 'groupBy']);
+    Route::get('/filter', [FactLogisticsController::class, 'filter']);
+});
 
 // News CRUD routes under the 'admin' prefix
 Route::prefix('admin')->group(function () {
@@ -78,4 +101,14 @@ Route::prefix('admin')->group(function () {
     Route::delete('schedules/{id}', [ScheduleController::class, 'destroy'])->name('admin.schedules.destroy');
 });
 
+// Route for transaction confirmation page
+Route::get('/transaction/confirm', [BusController::class, 'showTransactionConfirmation'])->name('transaction.confirm');
+
+// Route to handle transaction storing
+Route::post('/transaction/store', [BusController::class, 'storeTransaction'])->name('store.transaction');
+
+// Route for bus details page
+Route::get('/bus/details/{routeId}/{scheduleId}', [BusController::class, 'showBusDetails'])->name('bus.details');
+
+// Route for bus detail page (specific route and schedule)
 Route::get('/bus/{routeId}/{scheduleId}', [BusController::class, 'showDetails'])->name('bus.details');
