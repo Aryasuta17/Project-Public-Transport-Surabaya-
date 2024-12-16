@@ -51,7 +51,7 @@ Route::get('user/home', function () {
 // Admin dashboard routes
 Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
-Route::get('/admin/olap-dashboard', [AdminController::class, 'olapDashboard'])->name('admin.olap-dashboard');
+
 
 Route::prefix('fact-pendapatan')->group(function () {
     Route::get('/', [FactPendapatanController::class, 'index']);
@@ -112,3 +112,9 @@ Route::get('/bus/details/{routeId}/{scheduleId}', [BusController::class, 'showBu
 
 // Route for bus detail page (specific route and schedule)
 Route::get('/bus/{routeId}/{scheduleId}', [BusController::class, 'showDetails'])->name('bus.details');
+
+use App\Http\Controllers\FactPengemudiController;
+
+
+Route::get('/admin/olap-dashboard', [FactPengemudiController::class, 'index'])->name('olap.dashboard');
+Route::get('/admin/olap-dashboard', [AdminController::class, 'olapDashboard'])->name('admin.olap-dashboard');

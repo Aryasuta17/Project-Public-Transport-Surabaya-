@@ -23,81 +23,73 @@
 
         <!-- Visualisasi -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Pendapatan per Bulan -->
+
+            <!-- Distribusi Jumlah Keterlambatan -->
             <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Pendapatan per Bulan</h2>
-                <canvas id="pendapatanBulanChart"></canvas>
+                <h2 class="text-lg font-bold mb-4">Distribusi Jumlah Keterlambatan</h2>
+                <canvas id="keterlambatanDistribusiChart"></canvas>
             </div>
 
-            <!-- Jumlah Pelanggan per Rute -->
+            <!-- Jumlah Pelanggan per Bulan -->
             <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Jumlah Pelanggan per Rute</h2>
-                <canvas id="pelangganRuteChart"></canvas>
+                <h2 class="text-lg font-bold mb-4">Jumlah Pelanggan per Bulan</h2>
+                <canvas id="pelangganBulanChart"></canvas>
             </div>
 
-            <!-- Jumlah Pengemudi per Bus -->
+            <!-- Proporsi Pendapatan per Rute -->
             <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Jumlah Pengemudi per Bus</h2>
-                <canvas id="pengemudiBusChart"></canvas>
-            </div>
-
-            <!-- Distribusi Keterlambatan -->
-            <div class="bg-white p-4 rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Distribusi Keterlambatan</h2>
-                <canvas id="keterlambatanChart"></canvas>
+                <h2 class="text-lg font-bold mb-4">Pendapatan per Rute</h2>
+                <canvas id="pendapatanRuteBarChart"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Chart.js Scripts -->
     <script>
-        // Pendapatan per Bulan
-        new Chart(document.getElementById('pendapatanBulanChart'), {
+        // Distribusi Jumlah Keterlambatan
+        new Chart(document.getElementById('keterlambatanDistribusiChart'), {
             type: 'bar',
-            data: {
-                labels: @json($pendapatanBulanLabels),
-                datasets: [{
-                    label: 'Pendapatan',
-                    data: @json($pendapatanBulanData),
-                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                }]
-            }
-        });
-
-        // Jumlah Pelanggan per Rute
-        new Chart(document.getElementById('pelangganRuteChart'), {
-            type: 'pie',
-            data: {
-                labels: @json($ruteLabels),
-                datasets: [{
-                    data: @json($rutePelangganData),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-                }]
-            }
-        });
-
-        // Jumlah Pengemudi per Bus
-        new Chart(document.getElementById('pengemudiBusChart'), {
-            type: 'horizontalBar',
-            data: {
-                labels: @json($busLabels),
-                datasets: [{
-                    label: 'Jumlah Pengemudi',
-                    data: @json($busPengemudiData),
-                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                }]
-            }
-        });
-
-        // Distribusi Keterlambatan
-        new Chart(document.getElementById('keterlambatanChart'), {
-            type: 'doughnut',
             data: {
                 labels: @json($keterlambatanLabels),
                 datasets: [{
+                    label: 'Jumlah Pengemudi',
                     data: @json($keterlambatanData),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    backgroundColor: ['#FF6384', '#36A2EB']
                 }]
+            }
+        });
+
+        // Jumlah Pelanggan per Bulan
+        new Chart(document.getElementById('pelangganBulanChart'), {
+            type: 'bar',
+            data: {
+                labels: @json($pelangganBulanLabels),
+                datasets: [{
+                    label: 'Jumlah Pelanggan',
+                    data: @json($pelangganBulanData),
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Pendapatan per Rute
+        new Chart(document.getElementById('pendapatanRuteBarChart'), {
+            type: 'bar',
+            data: {
+                labels: @json($pendapatanRuteBarLabels),
+                datasets: [{
+                    label: 'Total Pendapatan',
+                    data: @json($pendapatanRuteBarData),
+                    backgroundColor: '#FFCE56'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
             }
         });
     </script>
